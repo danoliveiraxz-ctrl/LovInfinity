@@ -22,28 +22,23 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-go@v5
         with:
           go-version: "1.24"
-
       - name: Build native OAuth host
         working-directory: native-host
         run: go build -ldflags="-s -w" -o LovInfinityHost.exe .
-
       - name: Prepare installer payload
         shell: pwsh
         run: |
           Remove-Item -Recurse -Force installer/payload/* -ErrorAction SilentlyContinue
           Copy-Item manifest.json, popup.html, popup.js, background.js, styles.css, agent-chat.js, icon.png, icon.svg -Destination installer/payload/
           Copy-Item native-host/LovInfinityHost.exe -Destination installer/payload/
-
       - name: Build Windows installer
         working-directory: installer
         run: |
           go clean -cache
           go build -a -ldflags="-H=windowsgui -s -w" -o ../LovInfinity-Setup.exe .
-
       - name: Package extension ZIP
         shell: pwsh
         run: |
@@ -51,15 +46,13 @@ jobs:
           New-Item -ItemType Directory -Path LovInfinity-extension | Out-Null
           Copy-Item manifest.json, popup.html, popup.js, background.js, styles.css, agent-chat.js, icon.png, icon.svg -Destination LovInfinity-extension/
           Compress-Archive -Path LovInfinity-extension -DestinationPath LovInfinity-extension.zip -Force
-
       - uses: actions/upload-artifact@v4
         with:
           name: LovInfinity-Windows-Installer
           path: LovInfinity-Setup.exe
-
       - uses: actions/upload-artifact@v4
         with:
           name: LovInfinity-Extension
           path: LovInfinity-extension.zip
 
-# refresh
+# refresh-1789759671917
