@@ -10,6 +10,7 @@ import (
 	"path"
 	"strings"
 	"syscall"
+	"time"
 	"unsafe"
 )
 
@@ -28,12 +29,20 @@ func main() {
 	if err := copyDir("payload", extDir); err != nil { fail("Não foi possível instalar os arquivos da extensão: " + err.Error()) }
 
 	exeDst := filepath.Join(root, "LovInfinityHost.exe")
-	// The native host may still be running when the installer is launched again.
-	// Stop it before replacing the executable so Windows does not lock the file.
-	_ = exec.Command("taskkill", "/F", "/T", "/IM", "LovInfinityHost.exe").Run()
 	data, err := payloadFS.ReadFile("payload/LovInfinityHost.exe")
 	if err != nil { fail("Componente local não encontrado no instalador.") }
-	if err := os.WriteFile(exeDst, data, 0755); err != nil { fail("Não foi possível instalar o componente local: " + err.Error()) }
+
+	var writeErr error
+	for attempt := 1; attempt <= 12; attempt++ {
+		_ = exec.Command("taskkill", "/F", "/T", "/IM", "LovInfinityHost.exe").Run()
+		time.Sleep(500 * time.Millisecond)
+		writeErr = os.WriteFile(exeDst, data, 0755)
+		if writeErr == nil { break }
+	}
+
+	if writeErr != nil {
+		fail("Não foi possível instalar o componente local: " + writeErr.Error() + "\n\nFeche o Chrome completamente e execute o instalador novamente.")
+	}
 
 	manifestPath := filepath.Join(root, hostName+".json")
 	manifest := map[string]any{
