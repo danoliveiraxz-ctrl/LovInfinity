@@ -35,9 +35,27 @@ if not exist "LovInfinityHost.exe" (
   )
 )
 
-copy /Y "LovInfinityHost.exe" "%DEST%\LovInfinityHost.exe" >nul
-if errorlevel 1 (
-  echo Falha ao copiar o componente local.
+echo Encerrando qualquer componente LovInfinity em execucao...
+taskkill /F /T /IM LovInfinityHost.exe >nul 2>&1
+
+timeout /t 2 /nobreak >nul
+
+set "COPY_OK=0"
+for /L %%I in (1,1,5) do (
+  if exist "%DEST%\LovInfinityHost.exe" taskkill /F /T /IM LovInfinityHost.exe >nul 2>&1
+  copy /Y "LovInfinityHost.exe" "%DEST%\LovInfinityHost.exe" >nul 2>&1
+  if not errorlevel 1 (
+    set "COPY_OK=1"
+    goto :copy_done
+  )
+  timeout /t 1 /nobreak >nul
+)
+
+:copy_done
+if "%COPY_OK%"=="0" (
+  echo.
+  echo Nao foi possivel substituir o componente local porque ele continua em uso.
+  echo Feche o Chrome completamente e execute este instalador novamente.
   pause
   exit /b 1
 )
