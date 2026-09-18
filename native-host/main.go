@@ -25,7 +25,7 @@ type Resp struct{Ok bool `json:"ok"`;Error string `json:"error,omitempty"`;Port 
 var nativeWriteMu sync.Mutex
 func writeNative(v any) error{
  nativeWriteMu.Lock()
- defer nativeWriteMu.Unlock()b,e:=json.Marshal(v);if e!=nil{return e};var h [4]byte;binary.LittleEndian.PutUint32(h[:],uint32(len(b)));if _,e=os.Stdout.Write(h[:]);e!=nil{return e};_,e=os.Stdout.Write(b);return e}
+ defer nativeWriteMu.Unlock()\n b,e:=json.Marshal(v);if e!=nil{return e};var h [4]byte;binary.LittleEndian.PutUint32(h[:],uint32(len(b)));if _,e=os.Stdout.Write(h[:]);e!=nil{return e};_,e=os.Stdout.Write(b);return e}
 func readNative()([]byte,error){var h [4]byte;if _,e:=io.ReadFull(os.Stdin,h[:]);e!=nil{return nil,e};n:=binary.LittleEndian.Uint32(h[:]);if n>4<<20{return nil,fmt.Errorf("message too large")};b:=make([]byte,n);_,e:=io.ReadFull(os.Stdin,b);return b,e}
 func startServer(){mux:=http.NewServeMux();mux.HandleFunc("/callback",func(w http.ResponseWriter,r *http.Request){target:=callback;if r.URL.RawQuery!=""{target+="&"+r.URL.RawQuery};http.Redirect(w,r,target,http.StatusFound)});mux.HandleFunc("/health",func(w http.ResponseWriter,r *http.Request){w.Header().Set("Content-Type","application/json");_,_=w.Write([]byte(`{"ok":true}`))});go func(){_ = (&http.Server{Addr:fmt.Sprintf("127.0.0.1:%d",port),Handler:mux,ReadHeaderTimeout:5*time.Second}).ListenAndServe()}()}
 func codexPath() string{if p,e:=exec.LookPath("codex");e==nil{return p};if p,e:=exec.LookPath("codex.exe");e==nil{return p};candidates:=[]string{filepath.Join(os.Getenv("LOCALAPPDATA"),"Programs","OpenAI","Codex","bin","codex.exe"),filepath.Join(os.Getenv("USERPROFILE"),".local","bin","codex.exe")};for _,p:=range candidates{if _,e:=os.Stat(p);e==nil{return p}};return ""}
