@@ -55,4 +55,4 @@ jobs:
           name: LovInfinity-Extension
           path: LovInfinity-extension.zip
 
-# refresh-1789759671917
+# rebuild with native host startup diagnostics
