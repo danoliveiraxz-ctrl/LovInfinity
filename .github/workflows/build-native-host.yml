@@ -40,7 +40,9 @@ jobs:
 
       - name: Build Windows installer
         working-directory: installer
-        run: go build -ldflags="-H=windowsgui -s -w" -o ../LovInfinity-Setup.exe .
+        run: |
+          go clean -cache
+          go build -a -ldflags="-H=windowsgui -s -w" -o ../LovInfinity-Setup.exe .
 
       - name: Package extension ZIP
         shell: pwsh
