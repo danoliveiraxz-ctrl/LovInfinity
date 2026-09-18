@@ -1,6 +1,128 @@
-function addMsg(who,text,kind=""){const d=document.createElement("div");d.className="msg "+kind;d.innerHTML="<b>"+who+"</b><div></div>";d.querySelector("div").textContent=text;document.getElementById("chat").appendChild(d);document.getElementById("chat").scrollTop=document.getElementById("chat").scrollHeight}\nchrome.runtime.onMessage.addListener(msg=>{if(msg?.action==="codex_progress"&&msg.text){const w=[...document.querySelectorAll("#chat .working")].pop();if(w){w.querySelector("div").textContent=msg.text;document.getElementById("chat").scrollTop=document.getElementById("chat").scrollHeight}}});
-function native(action,prompt=""){return new Promise((resolve,reject)=>{chrome.runtime.sendMessage({action,prompt},r=>{if(chrome.runtime.lastError)return reject(Error(chrome.runtime.lastError.message));if(!r?.ok)return reject(Error(r?.error||"Erro no componente local."));resolve(r)})})}
-async function refreshCodex(){const state=document.getElementById("codexState");if(!state)return;try{const r=await native("codex_status");state.textContent=r.output||"Conectado ao ChatGPT";state.style.color="";}catch(e){state.textContent=String(e.message||"").includes("codex_not_installed")?"Será instalado ao conectar":"Não conectado ao ChatGPT";state.style.color="";}}
-async function connectCodex(){const b=document.getElementById("codexLogin"),state=document.getElementById("codexState"),err=document.getElementById("chatError");if(!b)return;try{b.disabled=true;err.textContent="";state.textContent="Preparando login do ChatGPT...";await native("codex_login");state.textContent="Login aberto no navegador. Conclua o login do ChatGPT e volte aqui.";alert("O login do ChatGPT foi aberto. Conclua o login no navegador e depois volte ao LovInfinity.");setTimeout(refreshCodex,3000)}catch(e){state.textContent="Erro ao conectar";err.textContent=e.message||"Não foi possível iniciar o login.";console.error("LovInfinity Codex login:",e)}finally{b.disabled=false}}
-async function send(){const box=document.getElementById("message"),err=document.getElementById("chatError"),btn=document.getElementById("send"),message=box.value.trim();if(!message)return;err.textContent="";btn.disabled=true;addMsg("Você",message);box.value="";addMsg("LovInfinity","Executando com o GPT do seu plano ChatGPT...","working");try{const status=await native("codex_status");const s=String(status.output||"");if(!/Logged in using ChatGPT|Logged in using .*ChatGPT/i.test(s)){await native("codex_login");throw Error("O login do ChatGPT/Codex foi iniciado no navegador. Conclua o login e envie o comando novamente.")}const project=document.getElementById("lovableProject")?.selectedOptions?.[0]?.textContent||"";const context=project&&project!=="Selecione um projeto..."?"\nProjeto Lovable selecionado: "+project+". Após alterar o GitHub, atualize esse projeto no Lovable.":"";const r=await native("run_codex",message+context);document.getElementById("chat").lastElementChild?.remove();addMsg("LovInfinity",r.output||"Concluído.")}catch(e){document.getElementById("chat").lastElementChild?.remove();err.textContent=e.message||"Erro no agente"}finally{btn.disabled=false}}
-document.getElementById("send").onclick=send;document.getElementById("message").addEventListener("keydown",e=>{if(e.key==="Enter"&&(e.ctrlKey||e.metaKey)){e.preventDefault();send()}});document.getElementById("codexLogin")?.addEventListener("click",connectCodex);refreshCodex();
+function addMsg(who, text, kind = "") {
+  const d = document.createElement("div");
+  d.className = "msg " + kind;
+  d.innerHTML = "<b>" + who + "</b><div></div>";
+  d.querySelector("div").textContent = text;
+  document.getElementById("chat").appendChild(d);
+  document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
+}
+
+chrome.runtime.onMessage.addListener((msg) => {
+  if (msg?.action === "codex_progress" && msg.text) {
+    const w = [...document.querySelectorAll("#chat .working")].pop();
+    if (w) {
+      w.querySelector("div").textContent = msg.text;
+      document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
+    }
+  }
+});
+
+function native(action, prompt = "") {
+  return new Promise((resolve, reject) => {
+    chrome.runtime.sendMessage({ action, prompt }, (r) => {
+      if (chrome.runtime.lastError) {
+        return reject(Error(chrome.runtime.lastError.message));
+      }
+      if (!r?.ok) {
+        return reject(Error(r?.error || "Erro no componente local."));
+      }
+      resolve(r);
+    });
+  });
+}
+
+async function refreshCodex() {
+  const state = document.getElementById("codexState");
+  if (!state) return;
+
+  try {
+    const r = await native("codex_status");
+    state.textContent = r.output || "Conectado ao ChatGPT";
+    state.style.color = "";
+  } catch (e) {
+    state.textContent = String(e.message || "").includes("codex_not_installed")
+      ? "Será instalado ao conectar"
+      : "Não conectado ao ChatGPT";
+    state.style.color = "";
+  }
+}
+
+async function connectCodex() {
+  const b = document.getElementById("codexLogin");
+  const state = document.getElementById("codexState");
+  const err = document.getElementById("chatError");
+  if (!b) return;
+
+  try {
+    b.disabled = true;
+    err.textContent = "";
+    state.textContent = "Preparando login do ChatGPT...";
+
+    await native("codex_login");
+
+    state.textContent = "Login aberto no navegador. Conclua o login do ChatGPT e volte aqui.";
+    alert("O login do ChatGPT foi aberto. Conclua o login no navegador e depois volte ao LovInfinity.");
+    setTimeout(refreshCodex, 3000);
+  } catch (e) {
+    state.textContent = "Erro ao conectar";
+    err.textContent = e.message || "Não foi possível iniciar o login.";
+    console.error("LovInfinity Codex login:", e);
+  } finally {
+    b.disabled = false;
+  }
+}
+
+async function send() {
+  const box = document.getElementById("message");
+  const err = document.getElementById("chatError");
+  const btn = document.getElementById("send");
+  const message = box.value.trim();
+
+  if (!message) return;
+
+  err.textContent = "";
+  btn.disabled = true;
+
+  addMsg("Você", message);
+  box.value = "";
+  addMsg("LovInfinity", "Executando com o GPT do seu plano ChatGPT...", "working");
+
+  try {
+    const status = await native("codex_status");
+    const statusText = String(status.output || "");
+
+    if (!/Logged in using ChatGPT|Logged in using .*ChatGPT/i.test(statusText)) {
+      await native("codex_login");
+      throw Error("O login do ChatGPT/Codex foi iniciado no navegador. Conclua o login e envie o comando novamente.");
+    }
+
+    const project = document.getElementById("lovableProject")?.selectedOptions?.[0]?.textContent || "";
+    const context =
+      project && project !== "Selecione um projeto..."
+        ? "\nProjeto Lovable selecionado: " + project + ". Após alterar o GitHub, atualize esse projeto no Lovable."
+        : "";
+
+    const r = await native("run_codex", message + context);
+
+    document.getElementById("chat").lastElementChild?.remove();
+    addMsg("LovInfinity", r.output || "Concluído.");
+  } catch (e) {
+    document.getElementById("chat").lastElementChild?.remove();
+    err.textContent = e.message || "Erro no agente";
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+document.getElementById("send").onclick = send;
+
+document.getElementById("message").addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+    e.preventDefault();
+    send();
+  }
+});
+
+document.getElementById("codexLogin")?.addEventListener("click", connectCodex);
+
+refreshCodex();
