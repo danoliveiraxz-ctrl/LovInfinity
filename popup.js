@@ -88,3 +88,4 @@ boot();
 // LovInfinity build refresh: backend agent uses GPT actions for GitHub/Lovable workflow.
 
 // Final build refresh after OpenAI agent backend fix.
+// Diagnostic refresh: show the exact OpenAI error returned by the agent.
