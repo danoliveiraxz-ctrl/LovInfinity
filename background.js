@@ -1,6 +1,6 @@
 async function setLovInfinityIcon(){
   try{
-    const res=await fetch(chrome.runtime.getURL("icon.svg"));
+    const res=await fetch(chrome.runtime.getURL("icon.png"));
     const blob=await res.blob();
     const bitmap=await createImageBitmap(blob);
     const imageData={};
