@@ -54,5 +54,4 @@ jobs:
         with:
           name: LovInfinity-Extension
           path: LovInfinity-extension.zip
-
-# rebuild with native host startup diagnostics
+# force rebuild 2026-09-18
