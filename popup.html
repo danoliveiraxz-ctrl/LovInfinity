@@ -1,48 +1,20 @@
 <!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>LovInfinity</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main class="app">
-    <div class="brand">
-      <div class="logo">∞</div>
-      <div>
-        <h1>LovInfinity</h1>
-        <p>Acesso seguro</p>
-      </div>
-    </div>
-
-    <section id="loading" class="card">
-      <div class="spinner"></div>
-      <p>Verificando licença...</p>
-    </section>
-
-    <section id="gate" class="card hidden">
-      <span class="eyebrow">LICENÇA NECESSÁRIA</span>
-      <h2>Ative seu acesso</h2>
-      <p class="muted">Informe seu token para liberar o LovInfinity neste dispositivo.</p>
-      <input id="token" type="text" autocomplete="off" spellcheck="false" placeholder="Cole seu token aqui">
-      <button id="activate">Ativar LovInfinity</button>
-      <p id="error" class="error"></p>
-    </section>
-
-    <section id="home" class="card hidden">
-      <div class="status"><span></span> Licença ativa</div>
-      <h2>LovInfinity liberado</h2>
-      <p class="muted">Seu acesso foi validado neste dispositivo.</p>
-      <div class="info">
-        <div><small>Plano</small><strong id="plan">—</strong></div>
-        <div><small>Expira em</small><strong id="expires">—</strong></div>
-      </div>
-      <button id="logout" class="secondary">Remover licença deste dispositivo</button>
-    </section>
-
-    <footer>LovInfinity • Licenciamento seguro</footer>
-  </main>
-  <script src="popup.js"></script>
-</body>
-</html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LovInfinity</title><link rel="stylesheet" href="styles.css"></head>
+<body><main class="app">
+<div class="brand"><div class="logo">∞</div><div><h1>LovInfinity</h1><p>Acesso seguro</p></div></div>
+<section id="loading" class="card"><div class="spinner"></div><p>Verificando licença...</p></section>
+<section id="gate" class="card hidden"><span class="eyebrow">LICENÇA NECESSÁRIA</span><h2>Ative seu acesso</h2><p class="muted">Informe seu token para liberar o LovInfinity neste dispositivo.</p><input id="token" type="text" autocomplete="off" spellcheck="false" placeholder="LOV-..."><button id="activate">Ativar LovInfinity</button><p id="error" class="error"></p></section>
+<section id="home" class="card hidden">
+<div class="status"><span></span> Licença ativa</div><h2>LovInfinity liberado</h2><p class="muted">Seu acesso foi validado neste dispositivo.</p>
+<div class="info"><div><small>Plano</small><strong id="plan">—</strong></div><div><small>Expira em</small><strong id="expires">—</strong></div></div>
+<div class="divider"></div><div class="sectionTitle"><div><span class="eyebrow">CONEXÕES</span><h3>Suas contas</h3></div><button id="refreshConnections" class="iconBtn">↻</button></div>
+<p class="muted">Conecte suas próprias contas. O token LovInfinity apenas libera o acesso.</p>
+<div class="connections">
+<div class="connection"><div><b>GitHub</b><small id="githubState">Não conectado</small></div><button data-provider="github" id="githubConnect">Conectar</button></div>
+<div class="connection"><div><b>Lovable</b><small id="lovableState">Não conectado</small></div><button data-provider="lovable" id="lovableConnect">Conectar</button></div>
+<div class="connection"><div><b>OpenAI</b><small id="openaiState">Não conectado</small></div><button data-provider="openai" id="openaiConnect">Conectar</button></div>
+</div>
+<div id="keyBox" class="keyBox hidden"><b id="keyTitle">Conectar</b><p class="muted">A chave será enviada diretamente ao servidor LovInfinity e armazenada cifrada. Ela não fica no código da extensão.</p><input id="apiKey" type="password" placeholder="Cole sua chave aqui"><div class="row"><button id="saveKey">Salvar conexão</button><button id="cancelKey" class="secondary">Cancelar</button></div><p id="keyError" class="error"></p></div>
+<div class="divider"></div><button id="logout" class="secondary">Remover licença deste dispositivo</button>
+</section><footer>LovInfinity • Licenciamento seguro</footer></main><script src="popup.js"></script></body></html>
