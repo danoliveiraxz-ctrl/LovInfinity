@@ -12,7 +12,7 @@ import (
 	"unsafe"
 )
 
-//go:embed payload
+//go:embed payload/*
 var payloadFS embed.FS
 
 const extensionID = "jinndnfkecgpmefehdbcjcjponabkhlc"
