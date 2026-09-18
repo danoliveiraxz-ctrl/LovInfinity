@@ -86,3 +86,5 @@ boot();
 // fresh build trigger - backend MCP parser fix
 
 // LovInfinity build refresh: backend agent uses GPT actions for GitHub/Lovable workflow.
+
+// Final build refresh after OpenAI agent backend fix.
