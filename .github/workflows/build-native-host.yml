@@ -1,0 +1,22 @@
+name: build-lovinfinity-host
+on:
+  push:
+    paths:
+      - "native-host/**"
+      - ".github/workflows/build-native-host.yml"
+jobs:
+  build:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: native-host
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.24"
+      - run: go build -ldflags="-s -w" -o LovInfinityHost.exe .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: LovInfinity-native-host-windows
+          path: native-host/LovInfinityHost.exe
