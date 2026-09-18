@@ -3,8 +3,13 @@
   "name": "LovInfinity",
   "version": "1.0.0",
   "description": "LovInfinity — acesso licenciado e ferramentas inteligentes.",
-  "permissions": ["storage"],
-  "host_permissions": ["https://expxqynyrafienedsmuw.supabase.co/*"],
+  "permissions": [
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://expxqynyrafienedsmuw.supabase.co/*"
+  ],
   "action": {
     "default_popup": "popup.html",
     "default_title": "LovInfinity"
