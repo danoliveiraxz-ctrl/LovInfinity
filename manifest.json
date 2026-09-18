@@ -1,26 +1,12 @@
 {
   "manifest_version": 3,
   "name": "LovInfinity",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "LovInfinity — acesso licenciado e ferramentas inteligentes.",
-  "permissions": [
-    "storage",
-    "tabs"
-  ],
-  "host_permissions": [
-    "https://expxqynyrafienedsmuw.supabase.co/*"
-  ],
-  "action": {
-    "default_popup": "popup.html",
-    "default_title": "LovInfinity",
-    "default_icon": "icon.png"
-  },
-  "background": {
-    "service_worker": "background.js"
-  },
-  "icons": {
-    "16": "icon.png",
-    "48": "icon.png",
-    "128": "icon.png"
-  }
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjqPgTNR1+XurJrf2DczP8XnV9aQypWP/iNVADY4SYoBR9RO1k08KP28e53S8s4fjwdyQ8TugOx648KHULsm3FCuKszMffdNo53n1cnZpAPj3Nz3T+S3VDhUsAm3ZOwUD2XQMeEUcrziryKGM4qSuO9iIvQPZAzja7Jk/DB2IiCR5jzFFvfx/EG9dPYeAL0zAaz9LlLuRFVdkyn0hiOFy/OeU520qLxZKOFZlG56Rn3aeV/ds7MDx1YnjjYNIi9Zqo9ohTIvARQN2Kv8rtqpXOMIoCXZ0kk0AVzvl3WAzzDkdbWIBZfvRcsQcrF4VlOZkj7AZnzmC3kDB91PnxdITnwIDAQAB",
+  "permissions": ["storage","tabs","nativeMessaging"],
+  "host_permissions": ["https://expxqynyrafienedsmuw.supabase.co/*"],
+  "action": {"default_popup":"popup.html","default_title":"LovInfinity","default_icon":"icon.png"},
+  "background": {"service_worker":"background.js"},
+  "icons": {"16":"icon.png","48":"icon.png","128":"icon.png"}
 }
