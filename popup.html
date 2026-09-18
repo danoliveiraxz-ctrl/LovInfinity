@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>LovInfinity</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+    <div class="brand">
+      <div class="logo">∞</div>
+      <div>
+        <h1>LovInfinity</h1>
+        <p>Acesso seguro</p>
+      </div>
+    </div>
+
+    <section id="loading" class="card">
+      <div class="spinner"></div>
+      <p>Verificando licença...</p>
+    </section>
+
+    <section id="gate" class="card hidden">
+      <span class="eyebrow">LICENÇA NECESSÁRIA</span>
+      <h2>Ative seu acesso</h2>
+      <p class="muted">Informe seu token para liberar o LovInfinity neste dispositivo.</p>
+      <input id="token" type="text" autocomplete="off" spellcheck="false" placeholder="Cole seu token aqui">
+      <button id="activate">Ativar LovInfinity</button>
+      <p id="error" class="error"></p>
+    </section>
+
+    <section id="home" class="card hidden">
+      <div class="status"><span></span> Licença ativa</div>
+      <h2>LovInfinity liberado</h2>
+      <p class="muted">Seu acesso foi validado neste dispositivo.</p>
+      <div class="info">
+        <div><small>Plano</small><strong id="plan">—</strong></div>
+        <div><small>Expira em</small><strong id="expires">—</strong></div>
+      </div>
+      <button id="logout" class="secondary">Remover licença deste dispositivo</button>
+    </section>
+
+    <footer>LovInfinity • Licenciamento seguro</footer>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>
