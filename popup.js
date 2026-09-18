@@ -20,6 +20,7 @@ $("githubConnect").onclick=async()=>{try{const d=await api({action:"github_start
 async function loadLovableProjects(){
   if(!activeSession)return;
   const box=$("lovableProjectBox"),select=$("lovableProject"),state=$("lovableProjectState");
+  box.classList.remove("hidden");
   try{
     state.textContent="Carregando seus projetos...";
     const d=await api({action:"lovable_projects",session_token:activeSession});
@@ -28,7 +29,10 @@ async function loadLovableProjects(){
     if(d.active_project?.id)select.value=d.active_project.id;
     state.textContent=projects.length?(d.active_project?"Projeto ativo: "+(d.active_project.name||d.active_project.id):"Escolha qual projeto o LovInfinity deve alterar."):"Nenhum projeto encontrado.";
     box.classList.remove("hidden");
-  }catch(e){state.textContent=e.message||"Não foi possível carregar os projetos."}
+  }catch(e){
+    box.classList.remove("hidden");
+    state.textContent=e.message||"Não foi possível carregar os projetos.";
+  }
 }
 $("lovableProject").onchange=async()=>{
   const id=$("lovableProject").value;if(!id)return;
