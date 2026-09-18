@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"path"
 	"strings"
 	"syscall"
 	"unsafe"
@@ -61,7 +62,7 @@ func copyDir(src, dst string) error {
 	if err != nil { return err }
 	for _, entry := range entries {
 		if entry.Name() == ".keep" { continue }
-		srcPath := filepath.Join(src, entry.Name())
+		srcPath := path.Join(src, entry.Name())
 		dstPath := filepath.Join(dst, entry.Name())
 		if entry.IsDir() {
 			if err := os.MkdirAll(dstPath, 0755); err != nil { return err }
