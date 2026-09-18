@@ -10,6 +10,9 @@ on:
       - "background.js"
       - "styles.css"
       - "agent-chat.js"
+      - "admin.html"
+      - "admin.js"
+      - "admin.css"
       - "icon.png"
       - "icon.svg"
       - "installer/**"
@@ -32,7 +35,7 @@ jobs:
         shell: pwsh
         run: |
           Remove-Item -Recurse -Force installer/payload/* -ErrorAction SilentlyContinue
-          Copy-Item manifest.json, popup.html, popup.js, background.js, styles.css, agent-chat.js, icon.png, icon.svg -Destination installer/payload/
+          Copy-Item manifest.json, popup.html, popup.js, background.js, styles.css, agent-chat.js, admin.html, admin.js, admin.css, icon.png, icon.svg -Destination installer/payload/
           Copy-Item native-host/LovInfinityHost.exe -Destination installer/payload/
       - name: Build Windows installer
         working-directory: installer
@@ -44,7 +47,7 @@ jobs:
         run: |
           if (Test-Path LovInfinity-extension) { Remove-Item -Recurse -Force LovInfinity-extension }
           New-Item -ItemType Directory -Path LovInfinity-extension | Out-Null
-          Copy-Item manifest.json, popup.html, popup.js, background.js, styles.css, agent-chat.js, icon.png, icon.svg -Destination LovInfinity-extension/
+          Copy-Item manifest.json, popup.html, popup.js, background.js, styles.css, agent-chat.js, admin.html, admin.js, admin.css, icon.png, icon.svg -Destination LovInfinity-extension/
           Compress-Archive -Path LovInfinity-extension -DestinationPath LovInfinity-extension.zip -Force
       - uses: actions/upload-artifact@v4
         with:
@@ -54,4 +57,3 @@ jobs:
         with:
           name: LovInfinity-Extension
           path: LovInfinity-extension.zip
-# force rebuild 2026-09-18
