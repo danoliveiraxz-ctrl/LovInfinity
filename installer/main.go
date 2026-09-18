@@ -45,7 +45,8 @@ func main() {
 	if err := registerNativeHost(manifestPath); err != nil { fail(err.Error()) }
 
 	_ = exec.Command("cmd", "/c", "start", "", "chrome://extensions/").Run()
-	messageBox("LovInfinity instalado com sucesso.\n\nO componente OAuth foi configurado automaticamente.\n\nNa primeira instalação, ative 'Modo do desenvolvedor' no Chrome e clique em 'Carregar sem compactação'.\n\nSelecione:\n"+extDir+"\n\nDepois disso, o LovInfinity estará pronto para usar.", "LovInfinity")
+	_ = exec.Command("explorer.exe", extDir).Start()
+	messageBox("LovInfinity instalado com sucesso.\n\nA pasta da extensão foi aberta no Explorer.\n\nNo Chrome, com o Modo do desenvolvedor ativado, clique em 'Carregar sem compactação' e selecione a pasta aberta.\n\nDepois disso, o LovInfinity estará pronto para usar.", "LovInfinity")
 }
 
 func registerNativeHost(manifestPath string) error {
