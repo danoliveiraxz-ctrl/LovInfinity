@@ -16,6 +16,7 @@ function ensureNativePort(){
         reject(Error(message||"Não foi possível iniciar o componente local LovInfinity."));
       };
       nativePort.onMessage.addListener(msg=>{
+        if(msg?.event==="codex_progress"){chrome.runtime.sendMessage({action:"codex_progress",text:msg.output||""});return}
         if(activeRequest){
           const p=activeRequest;
           activeRequest=null;
