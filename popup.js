@@ -22,3 +22,4 @@ $("saveKey").onclick=async()=>{try{const key=$("apiKey").value.trim();if(!key)th
 $("cancelKey").onclick=()=>{$("keyBox").classList.add("hidden")};
 $("logout").onclick=()=>chrome.storage.local.remove("license",()=>{activeSession="";show("gate")});
 boot();
+$("adminPanel").onclick=()=>chrome.tabs.create({url:chrome.runtime.getURL("admin.html")});
