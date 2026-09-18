@@ -9,6 +9,12 @@ function ensureNativePort(){
     try{
       nativePort=chrome.runtime.connectNative("com.lovinfinity.oauth");
       nativeReady=false;
+      let settled=false;
+      const fail=(message)=>{
+        if(settled)return;
+        settled=true;
+        reject(Error(message||"Não foi possível iniciar o componente local LovInfinity."));
+      };
       nativePort.onMessage.addListener(msg=>{
         if(activeRequest){
           const p=activeRequest;
@@ -18,11 +24,17 @@ function ensureNativePort(){
           processNativeQueue();
           return;
         }
-        if(msg?.ok)nativeReady=true;
+        if(msg?.ok){
+          nativeReady=true;
+          if(!settled){settled=true;resolve()}
+        }else if(!nativeReady){
+          fail(msg?.error||"O componente local LovInfinity não respondeu corretamente.");
+        }
       });
       nativePort.onDisconnect.addListener(()=>{
         nativeReady=false;
-        const reason=Error("Componente local LovInfinity desconectado.");
+        const runtimeError=chrome.runtime.lastError?.message||"";
+        const reason=Error(runtimeError||"Componente local LovInfinity desconectado.");
         if(activeRequest){
           clearTimeout(activeRequest.timer);
           activeRequest.reject(reason);
@@ -32,13 +44,14 @@ function ensureNativePort(){
           requestQueue.shift().reject(reason);
         }
         nativePort=null;
+        fail(reason.message);
       });
       nativePort.postMessage({action:"ensure_server"});
       const started=Date.now();
       const poll=()=>{
-        if(nativeReady){resolve();return}
-        if(Date.now()-started>5000){
-          reject(Error("Não foi possível iniciar o componente local LovInfinity."));
+        if(nativeReady)return;
+        if(Date.now()-started>8000){
+          fail("O componente local LovInfinity não respondeu ao iniciar. Verifique se o instalador foi executado e se o Chrome foi reiniciado.");
           return;
         }
         setTimeout(poll,50);
