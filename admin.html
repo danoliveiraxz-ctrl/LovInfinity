@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LovInfinity Admin</title><link rel="stylesheet" href="admin.css"></head>
+<body><main>
+<header><div class="logo">∞</div><div><h1>LovInfinity Admin</h1><p>Gerenciamento de licenças</p></div></header>
+<section id="login" class="card"><span class="eyebrow">ADMINISTRAÇÃO</span><h2>Entrar</h2><input id="email" type="email" placeholder="Seu e-mail"><input id="password" type="password" placeholder="Sua senha"><button id="loginBtn">Entrar no painel</button><p id="loginError" class="error"></p></section>
+<section id="panel" class="hidden">
+<div class="top"><div><span class="eyebrow">PAINEL</span><h2>Licenças</h2></div><button id="logout" class="secondary">Sair</button></div>
+<div class="generate card"><h3>Gerar novo token</h3><div class="plans"><button data-plan="week">1 semana<br><b>R$ 19,90</b></button><button data-plan="month">1 mês<br><b>R$ 35,90</b></button><button data-plan="lifetime">Vitalício<br><b>R$ 119,90</b></button></div><div id="newToken" class="token hidden"></div><p id="panelError" class="error"></p></div>
+<div class="card"><div class="listHead"><h3>Tokens</h3><button id="refresh">↻ Atualizar</button></div><div id="licenses" class="licenses"></div></div>
+</section></main><script src="admin.js"></script></body></html>
