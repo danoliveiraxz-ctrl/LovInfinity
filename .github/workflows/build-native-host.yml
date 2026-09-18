@@ -11,6 +11,7 @@ on:
       - "styles.css"
       - "agent-chat.js"
       - "icon.png"
+      - "icon.svg"
       - "installer/**"
       - "native-host/**"
       - ".github/workflows/build-native-host.yml"
