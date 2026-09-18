@@ -83,4 +83,4 @@ $("logout").onclick=()=>chrome.storage.local.remove("license",()=>{activeSession
 $("adminPanel").onclick=()=>chrome.tabs.create({url:chrome.runtime.getURL("admin.html")});
 boot();
 
-// fresh build trigger
+// fresh build trigger - backend MCP parser fix
