@@ -78,3 +78,5 @@ $("cancelKey").onclick=()=>{$("keyBox").classList.add("hidden")};
 $("logout").onclick=()=>chrome.storage.local.remove("license",()=>{activeSession="";show("gate")});
 $("adminPanel").onclick=()=>chrome.tabs.create({url:chrome.runtime.getURL("admin.html")});
 boot();
+
+// fresh build trigger
